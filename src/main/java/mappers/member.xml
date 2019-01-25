@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">    <!-- 태그를 정의한 uri -->
+<mapper namespace="com.kitri.app1.member.Dao">                        <!-- 구현하려는 Dao 인터페이스 --> 
+
+	<resultMap id="memberResult" type="com.kitri.app1.member.Member"> <!-- 검색된결과를 Member객체로만들어주다/매칭하는 정보(하나일경우 resultType) -->
+		<result column="id" property="id" />           <!-- column컬럼이름, property멤버변수이름 -->
+		<result column="pwd" property="pwd" />
+		<result column="name" property="name" />
+		<result column="email" property="email" />
+	</resultMap>
+
+	<insert id="insert" parameterType="com.kitri.app1.member.Member">            <!-- id:구현해야하는 Dao메소드이름 / parameterType:입력받는 파라미터타입(insert(Member m))-->
+		insert into and_mem values(#{id},#{pwd},#{name},#{email}) <!-- #{id}파라미터객체 멤버변수(getter호출) -->
+	</insert>
+	
+	<select id="select" parameterType="String" resultMap="memberResult"> <!-- resultMap만들때 디폴드생성자 멤버객체 생성함. setter호출(없으면 에러) -->
+		select * from and_mem where id=#{id}
+	</select>
+	
+<!--<select id="selectEmail" parameterType="String" resultType="memberResult"> 반환값이 하나일경우 resultMap이 아닌 resultType
+		select email from and_mem where id=#{id}
+	</select> -->
+	
+	<update id="update" parameterType="com.kitri.app1.member.Member">
+		update and_mem set pwd=#{pwd}, email=#{email} where id=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete and_mem where id=#{id}
+	</delete>
+
+</mapper>
+
